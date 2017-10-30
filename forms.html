@@ -1,5 +1,31 @@
-Hello World! That's just a test.
-<form action="http://www.google.com/search">
-<input name="q">
-<input type="submit">
+<div>Please, insert your birth date:</div>
+<form method="post">
+    <label>
+        Month
+        <input type="text" name="month" > 
+    </label>
+    <br>
+    <label>
+        Day 
+        <input type="text" name="day" >
+    </label>
+    <br>
+    <label> 
+        Year
+        <input type="text" name="year" >
+    </label>
+    <br>
+    <div style="color: red;">%(error)s</div>
+<input type="submit" value="Submit">
 </form>
+
+<!-- <div>Onde morar em São Paulo?</div>
+<form action="https://www.google.com.br/search">
+    <select name="q">
+        <option value="avenida paulista sao paulo">Avenida Paulista</option>
+        <option value="paraisopolis sao paulo">Paraísopolis</option>
+        <option value="liberdade sao paulo">Liberdade</option>
+    </select>
+    <br>
+<input type="submit" value="Enviar">
+</form> -->
