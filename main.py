@@ -1,30 +1,7 @@
 import webapp2
 
-form = """
-
-<div>Please, insert your birth date:</div>
-<form method="post">
-    <label>
-        Month
-        <input type="text" name="month" > 
-    </label>
-    <br>
-    <label>
-        Day 
-        <input type="text" name="day" >
-    </label>
-    <br>
-    <label> 
-        Year
-        <input type="text" name="year" >
-    </label>
-    <br>
-    <div style="color: red;">%(message)s</div>
-<input type="submit" value="Submit">
-</form>
-
-"""
-# form = 'forms.html'
+with open('forms.html', 'r') as myfile:
+    form=myfile.read()
 
 class MainPage(webapp2.RequestHandler):
     def write_form(self, message = ""):
@@ -34,7 +11,6 @@ class MainPage(webapp2.RequestHandler):
         self.write_form()
     
     def post(self):
-        #self.response.headers['Content-Type'] = 'text/plain'
         userDay = self.request.get('day')
         userMonth = self.request.get('month')
         userYear = self.request.get('year')
