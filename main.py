@@ -27,6 +27,7 @@ class ROT13(webapp2.RequestHandler):
         self.write_form()
         
     def post(self):
+        global ToROT13
         text = str(self.request.get('text'))
         if ToROT13:
             text = string.translate(text, rot13)
