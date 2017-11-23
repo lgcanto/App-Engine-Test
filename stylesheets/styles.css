@@ -1,5 +1,11 @@
-#big-box{
+input[type=text]{
     width: 40%;
     height: 40%;
     text-align: justify;
+    resize: none;
+}
+
+#textarea{
+    width: 40%;
+    height: 40%;
 }
