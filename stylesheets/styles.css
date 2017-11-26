@@ -1,6 +1,4 @@
 input[type=text]{
-    width: 40%;
-    height: 40%;
     text-align: justify;
     resize: none;
 }
@@ -8,4 +6,8 @@ input[type=text]{
 #textarea{
     width: 40%;
     height: 40%;
+}
+
+.error{
+    color: red;
 }
