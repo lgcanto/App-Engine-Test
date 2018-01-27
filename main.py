@@ -1,30 +1,30 @@
 import webapp2
+import os
 import cgi
 import string
 import re
+import jinja2
 
-with open('welcome.html', 'r') as myfile:
-    welcome=myfile.read()
-
-with open('signup.html', 'r') as myfile:
-    signup=myfile.read()
+template_dir = os.path.join(os.path.dirname(__file__), 'templates')
+jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir))
 
 def escape_html(text):
     return cgi.escape(text, quote = True)
 
-class Signup(webapp2.RequestHandler):
-    def write_signup(self, username = "",
-                           email = "",
-                           username_error = "",
-                           password_error = "",
-                           verifypass_error = "",
-                           email_error = ""):
-        self.response.out.write(signup % {"user_username": username,
-                                          "user_email": email,
-                                          "username_error": username_error,
-                                          "passsword_error": password_error,
-                                          "verifypass_error": verifypass_error,
-                                          "email_error": email_error})
+class Handler(webapp2.RequestHandler):
+    def write(self, *a, **kw):
+        self.response.out.write(*a, **kw)
+
+    def render_str(self, template, **params):
+        t = jinja_env.get_template(template)
+        return t.render(params)
+
+    def render(self, template, **kw):
+        self.write(self.render_str(template, **kw))
+
+class Signup(Handler):
+    def write_signup(self, **parameters):
+        self.render('signup.html', **parameters)
 
     def get(self):
         self.write_signup()
@@ -57,18 +57,21 @@ class Signup(webapp2.RequestHandler):
         if (userError == "") & (passError == "") & (verifyError == "") & (emailError == ""):
             self.redirect("/welcome?username=" + userName)
         else:
-            self.write_signup(userName, email, userError, passError, verifyError, emailError)
+            self.write_signup(userName = userName,
+                              email = email, 
+                              userError = userError, 
+                              passError = passError, 
+                              verifyError = verifyError, 
+                              emailError = emailError)
 
-class Welcome(webapp2.RequestHandler):
-    
+class Welcome(Handler):
     def write_welcome(self):
-        self.response.out.write(welcome % {"user_username": self.request.get('username')})
+        self.render('welcome.html', userName = self.request.get('username'))
     
     def get(self):
         self.write_welcome()
 
-class Redirect(webapp2.RequestHandler):
-    
+class Redirect(Handler):
     def get(self):
         self.redirect("/signup")
 
