@@ -6,7 +6,7 @@ import re
 import jinja2
 
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
-jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir))
+jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir), autoescape = True)
 
 def escape_html(text):
     return cgi.escape(text, quote = True)
@@ -71,12 +71,25 @@ class Welcome(Handler):
     def get(self):
         self.write_welcome()
 
-class Redirect(Handler):
+class Fizzbuzz(Handler):
     def get(self):
-        self.redirect("/signup")
+        n = self.request.get('n', 0)
+        n = n and int(n)
+        self.render('fizzbuzz.html', n=n)
+
+class Lista(Handler):
+    def get(self):
+        itens = self.request.get_all('item')
+        self.render('list.html', itens=itens)        
+
+class Main(Handler):
+    def get(self):
+        self.render('base.html')
 
 app = webapp2.WSGIApplication([
-    ('/', Redirect),
+    ('/', Main),
     ('/signup', Signup),
-    ('/welcome', Welcome)
+    ('/welcome', Welcome),
+    ('/fizzbuzz', Fizzbuzz),
+    ('/list', Lista),
 ], debug=True)

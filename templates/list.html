@@ -1,5 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+
 <form>
-    <h2>Acrescente um item:</h2>
+    <h2>Add a item:</h2>
     <input type="text" name="item">
+    {% if itens %}
+        {% for item in itens %}
+            <input type="hidden" name="item" value="{{item}}">
+        {% endfor %}
+    {% endif %}
     <button>Inserir</button>
 </form>
+{% if itens %}
+        <ul>
+        {% for item in itens %}
+            <li>{{item}}</li>
+        {% endfor %}
+        </ul>
+{% endif %}
+
+{% endblock %}
